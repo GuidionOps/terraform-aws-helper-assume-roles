@@ -1,17 +1,12 @@
-variable "needed" {
-  description = "Where is it used, what effect does it have?"
+variable "assumers" {
+  description = "Map of map of objects: Account ID -> Application Name -> Services to give access to"
 
-  # Type definitions should be descriptive. For example:
-  #
-  type = map(object({
-    foo : optional(string, "moomoo")
-  }))
-  #
-  # Tells you that you can give a an optional value like this:
-  #
-  # needed = {
-  #   foo = "hooha"
-  # }
-  #
-  # and that if not given, the value 'moomoo' will be used for 'foo'
+  type = map(
+    map(object(
+      {
+        dynamodb = optional(list(string), [])
+        s3       = optional(list(string), [])
+      }
+    ))
+  )
 }
