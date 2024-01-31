@@ -73,47 +73,4 @@ resource "aws_iam_role" "these" {
       })
     }
   }
-
-  dynamic "inline_policy" {
-    for_each = each.value.ecs
-
-    content {
-      name = inline_policy.value
-
-      policy = jsonencode({
-        Version = "2012-10-17",
-        Statement = [
-            {
-              Effect = "Allow"
-              Action = [
-                  "ecs:RunTask",
-                  "ecs:DescribeTasks"
-              ]
-              Resource = [
-                  "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:task-definition/dbt-dev-task"
-              ]
-            },
-            {
-              Effect = "Allow"
-              Action = [
-                  "iam:PassRole"
-              ]
-              Resource = [
-                  "arn:aws:iam::${data.aws_caller_identity.current.id}:role/dbt-guidion-dev-fargate-task-role-d3b329c"
-                  # "arn:aws:iam::${data.aws_caller_identity.current.id}:role/dbt-guidion-dev-ecs-execution-role-a784f37"
-              ]
-            },
-            {
-              Effect = "Allow"
-              Action = [
-                "ecs:DescribeTasks"
-              ]
-              Resource = [ 
-                "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:task/dbt-dev-cluster/*"
-              ]
-          },
-        ]
-      })
-    }
-  }
 }

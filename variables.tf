@@ -9,4 +9,21 @@ variable "assumers" {
       }
     ))
   )
+
+  default = {}
+}
+
+variable "assumers_with_policies" {
+  description = "Map of map of objects: Account ID -> Application Name -> Policy to give access to"
+
+  type = map(
+    map(object(
+      {
+        name   = string
+        policy = any
+      }
+    ))
+  )
+
+  default = {}
 }
